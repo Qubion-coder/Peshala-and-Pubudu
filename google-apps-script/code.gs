@@ -3,14 +3,11 @@
  *
  * POST  sheet=RSVP  name, phone, attendance, guests, message, invitedAs
  * POST  sheet=WISH  name, message, invitedAs
- * GET   ?action=wishes   -> latest wishes as JSON (shown in the guestbook)
  *
  * Sheets "RSVP" and "Wishes" are created automatically with styled headers.
  */
 
 const SPREADSHEET_ID = '16Y_7i508gYbbcPSgSy24fj4ls6UIeRaIY9brTR94hbw';
-const TIMEZONE = 'Asia/Colombo';
-const MAX_WISHES_RETURNED = 100;
 
 const SHEETS = {
   RSVP: {
@@ -90,17 +87,7 @@ function doPost(e) {
   }
 }
 
-function doGet(e) {
-  const action = e && e.parameter ? e.parameter.action : '';
-
-  if (action === 'wishes') {
-    try {
-      return jsonResponse_({ ok: true, wishes: readWishes_() });
-    } catch (error) {
-      return jsonResponse_({ ok: false, error: String(error && error.message ? error.message : error) });
-    }
-  }
-
+function doGet() {
   return jsonResponse_({
     ok: true,
     message: 'Peshala & Pubudu wedding endpoint is running.',
@@ -170,29 +157,6 @@ function writeHeaders_(sheet, config) {
   }
 }
 
-function readWishes_() {
-  const sheet = getOrCreateSheet_(SHEETS.WISH);
-  const lastRow = sheet.getLastRow();
-  if (lastRow < 2) return [];
-
-  const startRow = Math.max(2, lastRow - MAX_WISHES_RETURNED + 1);
-  const values = sheet.getRange(startRow, 1, lastRow - startRow + 1, 3).getValues();
-
-  return values
-    .filter(function (r) {
-      return r[1] && r[2];
-    })
-    .map(function (r) {
-      const date = r[0] instanceof Date ? r[0] : new Date();
-      return {
-        name: unsafe_(r[1]),
-        message: unsafe_(r[2]),
-        createdAt: Utilities.formatDate(date, TIMEZONE, "yyyy-MM-dd'T'HH:mm:ssXXX"),
-      };
-    })
-    .reverse(); // newest first
-}
-
 // ---------------------------------------------------------------------------
 // Request / response helpers
 // ---------------------------------------------------------------------------
@@ -247,11 +211,6 @@ function clip_(value, max) {
 /** Stops spreadsheet formula injection (values starting with = + - @). */
 function safe_(value) {
   return /^[=+\-@]/.test(value) ? "'" + value : value;
-}
-
-function unsafe_(value) {
-  const str = String(value);
-  return str.charAt(0) === "'" ? str.slice(1) : str;
 }
 
 function jsonResponse_(data) {
