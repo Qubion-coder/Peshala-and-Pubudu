@@ -69,7 +69,7 @@ export const Gallery: React.FC = () => {
           {marqueeImages.map((image, index) => (
             <div
               key={`${image.id}-${index}`}
-              className="relative flex-none w-[75vw] sm:w-[45vw] lg:w-[28vw] aspect-[3/4] sm:aspect-[4/5] arch-shape overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.1)] group cursor-pointer border-[8px] sm:border-[10px] border-white/90 bg-brand-champagne transform transition-all duration-700 hover:-translate-y-4 hover:shadow-[0_40px_60px_rgba(197,160,89,0.2)]"
+              className="relative flex-none w-[75vw] sm:w-[45vw] lg:w-[28vw] aspect-[3/4] sm:aspect-[4/5] arch-shape overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.1)] group cursor-pointer border-[8px] sm:border-[10px] border-brand-gold/20 bg-brand-champagne transform transition-all duration-700 hover:-translate-y-4 hover:shadow-[0_40px_60px_rgba(197,160,89,0.2)]"
               onClick={() => setSelectedImage(image.url)}
             >
               <img
@@ -94,8 +94,8 @@ export const Gallery: React.FC = () => {
         </div>
 
         {/* Soft edge blur overlays to blend carousel into the page */}
-        <div className="absolute top-0 left-0 w-16 sm:w-40 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-        <div className="absolute top-0 right-0 w-16 sm:w-40 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 left-0 w-16 sm:w-40 h-full bg-gradient-to-r from-brand-champagne to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 right-0 w-16 sm:w-40 h-full bg-gradient-to-l from-brand-champagne to-transparent pointer-events-none z-10" />
       </motion.div>
 
       {/* Fullscreen Premium Overlay */}
@@ -105,11 +105,11 @@ export const Gallery: React.FC = () => {
             initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             animate={{ opacity: 1, backdropFilter: 'blur(20px)' }}
             exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-            className="fixed inset-0 z-[200] bg-brand-mocha/95 flex items-center justify-center p-4 sm:p-8"
+            className="fixed inset-0 z-[200] bg-brand-aubergine/95 flex items-center justify-center p-4 sm:p-8"
             onClick={() => setSelectedImage(null)}
           >
             <button
-              className="absolute top-6 right-6 sm:top-8 sm:right-8 text-white/50 hover:text-white transition-colors p-4 bg-white/10 rounded-full backdrop-blur-md shadow-2xl hover:bg-white/20 group"
+              className="absolute top-6 right-6 sm:top-8 sm:right-8 text-white/50 hover:text-white transition-colors p-4 bg-brand-pearl/10 rounded-full backdrop-blur-md shadow-2xl hover:bg-brand-pearl/20 group"
               onClick={() => setSelectedImage(null)}
             >
               <X className="w-8 h-8 group-hover:rotate-90 transition-transform duration-500" />
@@ -125,7 +125,7 @@ export const Gallery: React.FC = () => {
                 if (fallbackImage) e.currentTarget.src = fallbackImage;
               }}
               alt="Gallery Preview"
-              className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-[0_30px_80px_rgba(0,0,0,0.6)] border-[6px] border-white/10"
+              className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-[0_30px_80px_rgba(0,0,0,0.6)] border-[6px] border-brand-gold/20"
               onClick={(e) => e.stopPropagation()}
             />
           </motion.div>

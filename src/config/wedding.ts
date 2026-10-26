@@ -1,0 +1,21 @@
+export const wedding = {
+  brideName: 'Peshala',
+  groomName: 'Pubudu',
+  brideParents: 'Beloved daughter of Mr. K. G. Lalith Indika and his wife',
+  groomParents: 'Beloved son of Mr. H. L. Sarath and his wife',
+  event: 'Wedding Ceremony',
+  dateLong: 'Wednesday, January 20, 2027',
+  dateShort: '20 . 01 . 2027',
+  monthYear: 'January 2027',
+  yearInWords: 'The Year Two Thousand Twenty Seven',
+  startTime: '10:00 AM',
+  endTime: '4:00 PM',
+  poruwaTime: '10:18 AM',
+  // Sri Lanka time (UTC+05:30) – countdown targets the Poruwa ceremony
+  ceremonyDateTime: new Date('2027-01-20T10:18:00+05:30'),
+  venueName: 'Centauria Wild',
+  venueArea: 'Udawalawa',
+  locationUrl: 'https://maps.app.goo.gl/Fvm8n4yHmXKiqzGU8',
+  rsvpPhoneDisplay: '071 2847199',
+  rsvpPhoneIntl: '+94712847199',
+};

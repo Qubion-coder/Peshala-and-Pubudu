@@ -2,15 +2,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* Emerald & Gold Color Palette */
-  --color-brand-beige: #c5a059; /* Kept old names for compatibility, mapped to gold */
-  --color-brand-beige-deep: #0b3323; /* Mapped to Emerald */
-  --color-brand-champagne: #fcf8ee;
-  --color-brand-ivory: #ffffff;
-  --color-brand-gold: #c5a059;
-  --color-brand-gold-light: #e5cd97;
-  --color-brand-mocha: #061e14; /* Deep emerald */
-  --color-brand-sand: #164f38; /* Light emerald */
+  /* Pearl White, Soft Lavender & Gold Color Palette */
+  --color-brand-beige: #c9a24a; /* Kept old names for compatibility, mapped to gold */
+  --color-brand-beige-deep: #f4edf9; /* Mapped to soft lavender */
+  --color-brand-champagne: #f4edf9; /* Soft lavender section tint */
+  --color-brand-ivory: #fdfbfe; /* Pearl white page base */
+  --color-brand-pearl: #ffffff; /* Card / surface white */
+  --color-brand-lilac: #e9dcf4; /* Light lilac accent */
+  --color-brand-violet: #8e6bb8; /* Lavender accent */
+  --color-brand-aubergine: #2a1240; /* Deep purple for overlays */
+  --color-brand-gold: #c9a24a;
+  --color-brand-gold-light: #ead9a8;
+  --color-brand-mocha: #9a7426; /* Primary text gold */
+  --color-brand-sand: #8f7240; /* Secondary text soft gold */
 
   --font-serif: "Cormorant Garamond", serif;
   --font-display: "Cinzel", serif;
@@ -20,7 +24,7 @@
 
 :root {
   background-color: var(--color-brand-ivory);
-  color: #292524;
+  color: var(--color-brand-mocha);
 }
 
 html, body {
@@ -32,7 +36,7 @@ html, body {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -57,6 +61,36 @@ html, body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-brand-mocha);
+}
+
+select option {
+  background-color: var(--color-brand-pearl);
+  color: var(--color-brand-mocha);
+}
+
+/* Pearl white backdrop with soft lavender & gold light */
+.bg-royal {
+  background-color: var(--color-brand-ivory);
+  background-image:
+    radial-gradient(ellipse 80% 45% at 50% 0%, rgba(142, 107, 184, 0.16), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 0% 45%, rgba(201, 162, 74, 0.08), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 100% 75%, rgba(142, 107, 184, 0.14), transparent 70%),
+    linear-gradient(180deg, #fdfbfe 0%, #f6f0fa 50%, #fdfbfe 100%);
+  background-attachment: fixed;
+}
+
+/* Metallic gold text */
+.text-gold-shimmer {
+  background: linear-gradient(115deg, #8a6420 0%, #c9a24a 25%, #a07a2c 50%, #d9b85c 70%, #8a6420 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gold-shimmer 8s linear infinite;
+}
+
+@keyframes gold-shimmer {
+  to { background-position: 200% center; }
 }
 
 /* Luxury Texture Utility Classes */

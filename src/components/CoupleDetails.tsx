@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, Heart } from 'lucide-react';
+import { wedding } from '../config/wedding';
 
 export const CoupleDetails: React.FC = () => {
   return (
@@ -20,8 +21,8 @@ export const CoupleDetails: React.FC = () => {
             <span className="text-brand-mocha uppercase tracking-[0.5em] text-[11px] font-semibold font-sans drop-shadow-sm">The Protagonists</span>
             <div className="w-12 sm:w-20 h-[1px] bg-gradient-to-l from-transparent to-brand-mocha/60" />
           </div>
-          <h2 className="text-5xl sm:text-7xl font-display text-brand-mocha tracking-tight drop-shadow-sm">
-            Eleanor <span className="italic text-brand-mocha font-light mx-2">&</span> Alexander
+          <h2 className="text-5xl sm:text-7xl font-display text-gold-shimmer tracking-tight">
+            {wedding.brideName} <span className="italic font-light mx-2">&</span> {wedding.groomName}
           </h2>
         </motion.div>
       </div>
@@ -37,8 +38,8 @@ export const CoupleDetails: React.FC = () => {
         >
           <div className="mb-4 flex flex-col items-center lg:items-end">
             <span className="text-brand-mocha uppercase tracking-[0.4em] text-[10px] font-bold mb-3 block">The Groom</span>
-            <h3 className="text-4xl sm:text-5xl font-display text-brand-mocha mb-2 drop-shadow-sm">Alexander</h3>
-            <p className="text-brand-sand/90 font-serif italic text-base sm:text-lg">Son of Mr. Robert Sterling<br />& Mrs. Margaret Sterling</p>
+            <h3 className="text-4xl sm:text-5xl font-display text-brand-mocha mb-2 drop-shadow-sm">{wedding.groomName}</h3>
+            <p className="text-brand-sand/90 font-serif italic text-base sm:text-lg max-w-xs">{wedding.groomParents}</p>
           </div>
           <div className="hidden lg:flex justify-end mt-8">
             <Heart className="w-6 h-6 text-brand-gold/60 fill-brand-gold/20 transform hover:scale-110 transition-transform cursor-pointer" />
@@ -56,14 +57,14 @@ export const CoupleDetails: React.FC = () => {
           {/* Glowing border effect */}
           <div className="absolute -inset-2 bg-gradient-to-b from-brand-mocha/30 to-transparent rounded-[12rem_12rem_1rem_1rem] blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-          <div className="relative w-[300px] h-[400px] sm:w-[360px] sm:h-[500px] lg:w-[420px] lg:h-[580px] rounded-[12rem_12rem_16px_16px] overflow-hidden border-[6px] border-white/90 shadow-[0_20px_50px_rgba(197,160,89,0.2)] bg-brand-champagne mx-auto z-10 transition-transform duration-700 group-hover:-translate-y-2">
+          <div className="relative w-[300px] h-[400px] sm:w-[360px] sm:h-[500px] lg:w-[420px] lg:h-[580px] rounded-[12rem_12rem_16px_16px] overflow-hidden border-[6px] border-brand-gold/20 shadow-[0_20px_50px_rgba(197,160,89,0.2)] bg-brand-champagne mx-auto z-10 transition-transform duration-700 group-hover:-translate-y-2">
             <img
               src="/images/b.jpg"
               onError={(e) => {
                 e.currentTarget.src = "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800&h=1000";
                 e.currentTarget.onerror = null;
               }}
-              alt="Samadhi and Madhawa"
+              alt={`${wedding.brideName} and ${wedding.groomName}`}
               className="w-full h-full object-cover scale-[1.2] lg:scale-[1.15] object-[center_30%] transition-transform duration-[1.5s] ease-out group-hover:scale-[1.25] lg:group-hover:scale-[1.2]"
             />
             {/* Elegant inner shadow & overlay */}
@@ -91,8 +92,8 @@ export const CoupleDetails: React.FC = () => {
         >
           <div className="mb-4 flex flex-col items-center lg:items-start">
             <span className="text-brand-mocha uppercase tracking-[0.4em] text-[10px] font-bold mb-3 block">The Bride</span>
-            <h3 className="text-4xl sm:text-5xl font-display text-brand-mocha mb-2 drop-shadow-sm">Eleanor</h3>
-            <p className="text-brand-sand/90 font-serif italic text-base sm:text-lg">Daughter of Mr. Charles Kensington<br />& Mrs. Victoria Kensington</p>
+            <h3 className="text-4xl sm:text-5xl font-display text-brand-mocha mb-2 drop-shadow-sm">{wedding.brideName}</h3>
+            <p className="text-brand-sand/90 font-serif italic text-base sm:text-lg max-w-xs">{wedding.brideParents}</p>
           </div>
           <div className="hidden lg:flex justify-start mt-8">
             <Heart className="w-6 h-6 text-brand-gold/60 fill-brand-gold/20 transform hover:scale-110 transition-transform cursor-pointer" />

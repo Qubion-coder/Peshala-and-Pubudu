@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, Loader2, Sparkles } from 'lucide-react';
+import { toast } from 'sonner';
+import { fetchWishes, submitToSheet } from '../lib/sheets';
 
 interface Wish {
   id: string;
@@ -19,10 +21,25 @@ const getRelativeTime = (date: Date) => {
   return `${Math.floor(hours / 24)}d ago`;
 };
 
-export const WishesSection: React.FC = () => {
+export const WishesSection: React.FC<{ guestName?: string }> = ({ guestName = '' }) => {
   const [wishes, setWishes] = useState<Wish[]>([]);
-  const [formData, setFormData] = useState({ name: '', message: '' });
+  const [formData, setFormData] = useState({ name: guestName, message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetchWishes()
+      .then((rows) =>
+        setWishes(
+          rows.map((row, i) => ({
+            id: `sheet-${i}`,
+            name: row.name,
+            message: row.message,
+            createdAt: new Date(row.createdAt),
+          })),
+        ),
+      )
+      .catch((error) => console.error('Error loading wishes: ', error));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,8 +47,11 @@ export const WishesSection: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Simulate network request latency
-      await new Promise(resolve => setTimeout(resolve, 800));
+      await submitToSheet('WISH', {
+        name: formData.name.trim(),
+        message: formData.message.trim(),
+        invitedAs: guestName,
+      });
 
       const newWish: Wish = {
         id: Date.now().toString(),
@@ -42,9 +62,11 @@ export const WishesSection: React.FC = () => {
       
       // Prepend the new wish to the list
       setWishes(prev => [newWish, ...prev]);
-      setFormData({ name: '', message: '' });
+      setFormData({ name: guestName, message: '' });
+      toast.success('Thank you for your beautiful blessing!');
     } catch (error) {
       console.error('Error submitting wish: ', error);
+      toast.error('Could not send your wishes. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -74,7 +96,7 @@ export const WishesSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          className="w-full glass p-8 sm:p-14 rounded-[3rem] border border-white/60 shadow-[0_30px_60px_rgba(197,160,89,0.1)] relative overflow-hidden bg-white/70 backdrop-blur-3xl mb-16"
+          className="w-full glass p-8 sm:p-14 rounded-[3rem] border border-brand-gold/20 shadow-[0_30px_60px_rgba(197,160,89,0.1)] relative overflow-hidden bg-brand-pearl/70 backdrop-blur-3xl mb-16"
         >
           {/* Subtle top reflection line */}
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-gold to-transparent opacity-50" />
@@ -93,7 +115,7 @@ export const WishesSection: React.FC = () => {
                   required
                   type="text"
                   placeholder="E.g., Uncle John"
-                  className="w-full bg-white/80 px-6 py-4 rounded-full border border-stone-200/60 focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-mocha/40 outline-none transition-all duration-300 font-serif italic text-lg shadow-inner placeholder:text-stone-300 text-brand-mocha"
+                  className="w-full bg-brand-pearl/80 px-6 py-4 rounded-full border border-brand-gold/30 focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-mocha/40 outline-none transition-all duration-300 font-serif italic text-lg shadow-inner placeholder:text-brand-sand/40 text-brand-mocha"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
@@ -104,7 +126,7 @@ export const WishesSection: React.FC = () => {
                 <textarea
                   required
                   placeholder="Wishing you a lifetime of happiness..."
-                  className="w-full bg-white/80 px-6 py-5 rounded-[2rem] border border-stone-200/60 focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-mocha/40 outline-none transition-all duration-300 h-36 resize-none font-serif italic text-lg shadow-inner placeholder:text-stone-300 text-brand-mocha"
+                  className="w-full bg-brand-pearl/80 px-6 py-5 rounded-[2rem] border border-brand-gold/30 focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-mocha/40 outline-none transition-all duration-300 h-36 resize-none font-serif italic text-lg shadow-inner placeholder:text-brand-sand/40 text-brand-mocha"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 />
@@ -121,7 +143,7 @@ export const WishesSection: React.FC = () => {
                   <Loader2 className="w-5 h-5 animate-spin" />
                 ) : (
                   <>
-                    <Send className="w-4 h-4 text-brand-gold" />
+                    <Send className="w-4 h-4 text-brand-champagne" />
                     Share Blessing
                   </>
                 )}
@@ -139,12 +161,12 @@ export const WishesSection: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="glass p-8 sm:p-10 rounded-3xl border border-brand-gold/20 shadow-sm relative overflow-hidden group bg-white/50 backdrop-blur-sm"
+                className="glass p-8 sm:p-10 rounded-3xl border border-brand-gold/20 shadow-sm relative overflow-hidden group bg-brand-pearl/50 backdrop-blur-sm"
               >
                 <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-brand-mocha/20 to-brand-gold/40 group-hover:from-brand-mocha group-hover:to-brand-gold transition-all duration-500" />
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-4 mb-4">
                   <h4 className="font-display text-2xl text-brand-mocha tracking-tight pl-2">{wish.name}</h4>
-                  <span className="text-[9px] uppercase tracking-[0.2em] text-brand-sand font-bold bg-white/60 px-3 py-1 rounded-full border border-stone-100/50">
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-brand-sand font-bold bg-brand-pearl/60 px-3 py-1 rounded-full border border-brand-gold/30">
                     {wish.createdAt ? getRelativeTime(wish.createdAt) : 'just now'}
                   </span>
                 </div>
